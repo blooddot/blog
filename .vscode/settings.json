@@ -1,2 +1,7 @@
 {
+    "workbench.colorCustomizations": {
+        "tab.activeBorder": "#4d9aba",
+        "statusBar.background": "#4d9aba",
+        "statusBar.foreground": "#ffffff"
+    }
 }
