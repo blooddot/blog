@@ -94,10 +94,10 @@ creative_commons:
 # ---------------------------------------------------------------
 
 # Schemes
-scheme: Muse
-#scheme: Mist
-#scheme: Pisces
-#scheme: Gemini
+# scheme: Muse
+# scheme: Mist
+# scheme: Pisces
+scheme: Gemini
 
 # Dark Mode
 darkmode: false
@@ -120,7 +120,7 @@ menu:
   archives: /archives/ || fa fa-archive
   # schedule: /schedule/ || fa fa-calendar
   # sitemap: /sitemap.xml || fa fa-sitemap
-  # commonweal: /404/ || fa fa-heartbeat
+  commonweal: /404/ || fa fa-heartbeat
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
@@ -979,3 +979,13 @@ vendors:
 css: css
 js: js
 images: images
+
+use_motion: true  # 开启动画效果
+
+# canvas_nest
+# canvas_nest: true //开启动画
+# canvas_nest: false //关闭动画
+
+# three_waves
+three_waves: true //开启动画
+# three_waves: false //关闭动画
