@@ -3,5 +3,12 @@
         "tab.activeBorder": "#4d9aba",
         "statusBar.background": "#4d9aba",
         "statusBar.foreground": "#ffffff"
-    }
+    },
+    "cSpell.words": [
+        "appx",
+        "armv",
+        "l",
+        "libui",
+        "nsis"
+    ]
 }

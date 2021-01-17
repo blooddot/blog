@@ -4,7 +4,8 @@ date: 2021-01-8 00:59:45
 tags:
 categories: electron
 ---
-使用electron, 打包必不可免, 官方推荐electron-builder库进行应用打包. 本篇主要就工作中用到的electron-builder打包功能进行总结.
+使用electron, 打包必不可免, 官方推荐electron-builder库进行应用打包.  
+本篇主要就工作中用到的electron-builder打包功能进行总结.
 
 ## 安装
 
@@ -29,21 +30,52 @@ yarn add -D electron-builder
       "xxxx",
       "xxxx"
   ],
+
   "directories": {              //目录配置
-  "buildResources": "xxxx",   //构建用的资源目录（不会包含在打包后的资源中, 例如nsis要用到的构建配置文件）
-  "output": "xxxx",           //输出文件夹, 默认输出到dist文件夹
-  "app": "xxxx",              //应用程序目录, 默认是app,www或工作空间
+    "buildResources": "xxxx",   //构建用的资源目录（不会包含在打包后的资源中, 例如nsis要用到的构建配置文件）
+    "output": "xxxx",           //输出文件夹, 默认输出到dist文件夹
+    "app": "xxxx",              //应用程序目录, 默认是app,www或工作空间
   },
   
-  "buildDependenciesFromSource": false,   //boolean, 
+  "buildDependenciesFromSource": false,   //boolean, 是否用源编译开发依赖项
   "nodeGypRebuild": false,        //boolean, 是否每次打包前都重新构建node-gyp
-  "npmArgs": ["xxx"],        //Array<String> | String, 安装应用程序时,额外
+  "npmArgs": ["xxx"],         //Array<String> | String, 直译: 安装应用程序本地依赖（native deps） 时添加的额外命令行参数, 原文: Additional command line arguments to use when installing app native deps. 
+  "npmRebuild": true,         //是否在打包应用程序之前重新构建本地依赖
+
+  "buildVersion": "xxxx",     //构建的版本, 对应于MacOS 的CFBundleVersion 和 Windows 元数据属性，默认对应Version, 如果已经定义TRAVIS_BUILD_NUMBER 、 APPVEYOR_BUILD_NUMBER 、 CIRCLE_BUILD_NUM 、 BUILD_NUMBER 、 bamboo.buildNumber 这些环境变量，那么将会被用作 build Version（version.build_number）
+  "electronCompile": true,    //是否使用 electron-compile 来编译应用程序, 注:electronCompile已废弃
+  "electronDist": "~/electron/out/R", //自定义electron构建路径
+  "electronDownload": {       //electron-download 选项  详见:<https://github.com/electron/get#usage>
+    "version": "xxx",
+    "cache": "xxxx",          //缓存位置
+    "mirror": "xxxx",         //镜像
+    "strictSSL": false,
+    "isVerfyChecksum": false,
+    "platform":"xxx",            //“darwin” | “linux” | “win32” | “mas”
+    "arch":"xxxx" 
+  },
+  "electronVersion":  "xxx",    //打包用的electron版本, 默认为electron electron-prebuilt electron-prebuilt-compile 依赖版本
+  "extends": "xxx", //内置预设配置或配置文件的路径（相对于项目目录）当前只支持react-cra,如果安装了react-scripts依赖, react-cra会被自动设置，设置为null可以禁用自动检测
+  "extraMetadata": "xxx", //注入额外属性到package.json中
+  "readonly": false, //应用签名失败时,是否构建失败(用于停止构建签名失败的应用程序) 
+  "nodeVersion": "current", //仅限于libui-based frameworks ，打包所用的NodeJS版本，设置current表示当前运行的NodeJS版本
+  "launchUiVersion": "", //仅限于libui-based frameworks, 你所要打包的 LaunchUI 版本. 仅仅针对于Windows, 默认为适合框架使用的版本
+  "framework": "electron", //框架名称，electron proton-native libui 默认为electron
+
+  "afterPack": "xxxx",  //打包后(签名前)执行的方法(文件路径,或者模块id)
+  "afterSign": "xxxx",  //签名后(打包成发行版之前)执行的方法(文件路径,或者模块id)
+  "artifactBuildStarted": "xxxx",   //artifact build(待理解)开始时执行的方法(文件路径,或者模块id)
+  "artifactBuildCompleted": "xxxx",   //artifact build(待理解)完成时执行的方法(文件路径,或者模块id)
+  "afterAllArtifactBuild": "xxxx",    //所有artifact build(待理解)运行完后执行的方法(文件路径,或者模块id)
+  "onNodeModuleFile": "xxxx",         //
 }
 ```
 
+除了上述的基本配置,对应不同的平台,还可以有不同的配置参数,如下:  
+
 ### MacOS平台配置
 
-- mac: MacOS平台构建选项, [详见](https://www.electron.build/configuration/mac>)  
+- mac: MacOS平台构建选项, [详见](https://www.electron.build/configuration/mac)  
 - mas: Mac应用程序商店构建选项, [详见](https://www.electron.build/configuration/mas)  
 - dmg: Mac dmg包构建选项, [详见](https://www.electron.build/configuration/dmg)  
 - pkg: Mac pkg包构建选项, [详见](https://www.electron.build/configuration/pkg)  
@@ -108,7 +140,7 @@ electron-builder start                    使用electronic-webpack在开发模�
 
 ### 例子
 
-electron-builder --win --x64    构建windows 64位版本
+electron-builder --win --x64    构建windows 64位版本  
 electron-builder -mwl           为macOS, Windows和Linux构建（同时构建）
 
 ## 参考资料
@@ -117,3 +149,4 @@ electron-builder -mwl           为macOS, Windows和Linux构建（同时构建�
 <https://github.com/electron-userland/electron-builder>  
 <https://github.com/QDMarkMan/CodeBlog/blob/master/Electron/electron-builder%E6%89%93%E5%8C%85%E8%AF%A6%E8%A7%A3.md>
 <https://stackoverflow.com/questions/54978918/what-is-the-purpose-of-buildresources-folder-in-electron-builder-building-proces>
+<https://blog.csdn.net/qq_38830593/article/details/89843722>
