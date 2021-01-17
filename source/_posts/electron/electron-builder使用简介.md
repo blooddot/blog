@@ -19,29 +19,39 @@ yarn add -D electron-builder
 
 可以直接在package.json中配置,也可以添加electron-builder.yml(yml,json5,toml,js)文件进行配置,以json配置为例  
 
-### 基本配置
+### 基础配置
 
 ``` json
 "build": {
   "productName": "xxxx",        //项目名,这也是生成的exe文件的前缀名
-  "appId": "com.example.app",   //应用程序 id
+  "asar": {                     //AsarOptions|Boolean 是否打包程序源代码为Electron的压缩包格式
+    "smartUnpack": true,        //是否自动不打包可执行文件
+    "ordering": "xxxx",         //string
+    "asarUnpack": [             //Array<String>|String 相对于项目目录,指定哪些文件不需要打包进压缩包内
+      "xxxx"
+    ]
+  },
+  "appId": "com.electron.${name}",   //应用程序 id
   "copyright":"xxxx",           //版权信息
   "files": [                    //打包包含文件 默认包含项目根目录文件
       "xxxx",
       "xxxx"
   ],
 
-  "directories": {              //目录配置
+  //目录配置
+  "directories": {              
     "buildResources": "xxxx",   //构建用的资源目录（不会包含在打包后的资源中, 例如nsis要用到的构建配置文件）
     "output": "xxxx",           //输出文件夹, 默认输出到dist文件夹
     "app": "xxxx",              //应用程序目录, 默认是app,www或工作空间
   },
   
+  //
   "buildDependenciesFromSource": false,   //boolean, 是否用源编译开发依赖项
   "nodeGypRebuild": false,        //boolean, 是否每次打包前都重新构建node-gyp
   "npmArgs": ["xxx"],         //Array<String> | String, 直译: 安装应用程序本地依赖（native deps） 时添加的额外命令行参数, 原文: Additional command line arguments to use when installing app native deps. 
   "npmRebuild": true,         //是否在打包应用程序之前重新构建本地依赖
 
+  //
   "buildVersion": "xxxx",     //构建的版本, 对应于MacOS 的CFBundleVersion 和 Windows 元数据属性，默认对应Version, 如果已经定义TRAVIS_BUILD_NUMBER 、 APPVEYOR_BUILD_NUMBER 、 CIRCLE_BUILD_NUM 、 BUILD_NUMBER 、 bamboo.buildNumber 这些环境变量，那么将会被用作 build Version（version.build_number）
   "electronCompile": true,    //是否使用 electron-compile 来编译应用程序, 注:electronCompile已废弃
   "electronDist": "~/electron/out/R", //自定义electron构建路径
@@ -62,12 +72,19 @@ yarn add -D electron-builder
   "launchUiVersion": "", //仅限于libui-based frameworks, 你所要打包的 LaunchUI 版本. 仅仅针对于Windows, 默认为适合框架使用的版本
   "framework": "electron", //框架名称，electron proton-native libui 默认为electron
 
-  "afterPack": "xxxx",  //打包后(签名前)执行的方法(文件路径,或者模块id)
-  "afterSign": "xxxx",  //签名后(打包成发行版之前)执行的方法(文件路径,或者模块id)
-  "artifactBuildStarted": "xxxx",   //artifact build(待理解)开始时执行的方法(文件路径,或者模块id)
-  "artifactBuildCompleted": "xxxx",   //artifact build(待理解)完成时执行的方法(文件路径,或者模块id)
-  "afterAllArtifactBuild": "xxxx",    //所有artifact build(待理解)运行完后执行的方法(文件路径,或者模块id)
-  "onNodeModuleFile": "xxxx",         //
+  //Hooks 
+  "afterPack": "xxxx",  //打包后(签名前)执行的函数(文件或模块id的路径)
+  "afterSign": "xxxx",  //签名后(打包成发行版之前)执行的函数(文件或模块id的路径)
+  "artifactBuildStarted": "xxxx",   //artifact build(待理解)开始时执行的函数(文件或模块id的路径)
+  "artifactBuildCompleted": "xxxx",   //artifact build(待理解)完成时执行的函数(文件或模块id的路径)
+  "afterAllArtifactBuild": "xxxx",    //所有artifact build(待理解)运行完后执行的函数(文件或模块id的路径)
+  "onNodeModuleFile": "xxxx",         //要在每个节点模块文件上运行的函数(文件或模块id的路径)
+  "beforeBuild": "xxxx",              //只有npmRebuild配置设置为true时生效, 依赖库被安装或重新编译后执行的函数(文件或模块id的路径).
+
+  //
+  "remoteBuild": true,          //当前操作系统不支持构建时,使用Electron远程服务构建
+  "includePdb": false,          //是否包含PDB文件(<https://en.wikipedia.org/wiki/Program_database>)
+  "removePackageScripts": true,   //是否从package.json中移除scripts项
 }
 ```
 
@@ -98,6 +115,16 @@ yarn add -D electron-builder
 - freebsd: Linux freebsd包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)  
 - p5p: Linux p5p包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)
 - apk: Linux apk包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)
+
+### 每个平台可覆盖的配置
+
+- appId 基础配置项  
+- artifactName 构建生成的文件名字模板, 默认为 ${productName}-${version}.${ext} (有些平台会有不同的默认值,具体查看各自平台的配置)  
+- compression = normal "store" | "normal" | "maximum" 压缩等级  如果要快速测试构建，store 能够显著地缩短构建时间，maximum 不会导致明显的尺寸差异，但是会增加构建时间。  
+- files 基础配置项  
+- extraResources Array<String|FileSet>|String|FileSet 外部资源路径,项目目录相对路径,拷贝匹配的目录或文件到应用程序资源目录下(对于MacOS是Contents/Resources, 对于Linux和Windows是resources)  
+- extraFiles 和extraResources类似,只是拷贝目标目录是应用程序内容目录(对于MacOS是Contents,对于Linux和Windows是根目录)
+- asar 基础配置项  
 
 ## [命令及参数](https://www.electron.build/cli)
 
