@@ -24,19 +24,7 @@ yarn add -D electron-builder
 ``` json
 "build": {
   "productName": "xxxx",        //项目名,这也是生成的exe文件的前缀名
-  "asar": {                     //AsarOptions|Boolean 是否打包程序源代码为Electron的压缩包格式
-    "smartUnpack": true,        //是否自动不打包可执行文件
-    "ordering": "xxxx",         //string
-    "asarUnpack": [             //Array<String>|String 相对于项目目录,指定哪些文件不需要打包进压缩包内
-      "xxxx"
-    ]
-  },
-  "appId": "com.electron.${name}",   //应用程序 id
   "copyright":"xxxx",           //版权信息
-  "files": [                    //打包包含文件 默认包含项目根目录文件
-      "xxxx",
-      "xxxx"
-  ],
 
   //目录配置
   "directories": {              
@@ -116,15 +104,67 @@ yarn add -D electron-builder
 - p5p: Linux p5p包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)
 - apk: Linux apk包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)
 
-### 每个平台可覆盖的配置
+### 既能配置在build项, 又能在每个平台中重写的配置
 
-- appId 基础配置项  
-- artifactName 构建生成的文件名字模板, 默认为 ${productName}-${version}.${ext} (有些平台会有不同的默认值,具体查看各自平台的配置)  
-- compression = normal "store" | "normal" | "maximum" 压缩等级  如果要快速测试构建，store 能够显著地缩短构建时间，maximum 不会导致明显的尺寸差异，但是会增加构建时间。  
-- files 基础配置项  
-- extraResources Array<String|FileSet>|String|FileSet 外部资源路径,项目目录相对路径,拷贝匹配的目录或文件到应用程序资源目录下(对于MacOS是Contents/Resources, 对于Linux和Windows是resources)  
-- extraFiles 和extraResources类似,只是拷贝目标目录是应用程序内容目录(对于MacOS是Contents,对于Linux和Windows是根目录)
-- asar 基础配置项  
+- **appId** = com.electron.${name} String - 应用程序id
+- **artifactName** String - 构建生成的文件名字模板, 默认为 ${productName}-${version}.${ext} (有些平台会有不同的默认值,具体查看各自平台的配置)  
+- **compression** = normal "store" | "normal" | "maximum" - 压缩等级 如果要快速测试构建，store 能够显著地缩短构建时间，maximum 不会导致明显的尺寸差异，但是会增加构建时间。
+
+- **files** Array\<String | FileSet\> | String | FileSet - 打包包含文件 默认包含项目根目录文件
+- **extraResources** Array\<String |FileSet\> | String | FileSet - 外部资源路径,项目目录相对路径,拷贝匹配的目录或文件到应用程序资源目录下(对于MacOS是Contents/Resources, 对于Linux和Windows是resources)  
+
+```json
+FileSet = {
+  "from": "./extraResources/",    //来源路径
+  "to": "extraResources"          //目标路径
+}
+```
+
+- **extraFiles** Array\<String | FileSet\> | String | FileSet - 和extraResources类似,只是拷贝目标目录是应用程序内容目录(对于MacOS是Contents,对于Linux和Windows是根目录)
+- **asar** AsarOptions | Boolean - 是否打包程序源代码为Electron的压缩包格式
+
+```json
+AsarOptions = {
+  "smartUnpack": true,        //是否自动不打包可执行文件
+  "ordering": "xxxx",         //string
+  "asarUnpack": [             //Array<String>|String 相对于项目目录,指定哪些文件不需要打包进压缩包内
+    "xxxx"
+  ]
+}
+```
+
+- **fileAssociations** Array\<FileAssociation\> | FileAssociation - 关联文件(特定格式的文件,双击后用此应用程序打开)
+
+```json
+FileAssociation = {
+  "ext": "xxxx", //文件扩展名, 例如png
+  "name": "xxxx", //名称, 例如PNG, 默认为ext同配置
+  "description": "xxxx", //只支持Windows操作系统, 文件描述
+  "mimeType": "xxxx",    //只支持Linux操作系统, 媒体类型
+  "icon": "xxxx",   //icon路径(MacOS为icns格式, Windows为ico格式), 构建用的资源目录的相对路径, Linux不支持
+  "role":"Editor",  //只支持MacOS The app’s role with respect to the type 可选值: Editor, Viewer, Shell, None.
+  "isPackage": false,   //只支持MacOS Whether the document is distributed as a bundle. If set to true, the bundle directory is treated as a file. Corresponds to LSTypeIsPackage.
+  "protocols":["xxxx"], // Array<Protocol> | Protocol - The URL protocol schemes.
+  "schemes":["xxxx"], // Array<String> - The schemes. e.g. ["irc", "ircs"].
+}
+```
+
+- **forceCodeSigning** Boolean - 当应用程序签名失败时, 是否打包失败
+- **electronUpdaterCompatibility** = ">=2.15" String - electronUpdater兼容版本, e.g. >= 2.16, >=1.0.0.
+- **publish** 发布设置 [详见](https://www.electron.build/configuration/publish)
+- **detectUpdateChannel** = true Boolean - Whether to infer update channel from application version pre-release components. e.g. if version 0.12.1-alpha.1, channel will be set to alpha. Otherwise to latest.
+- **generateUpdatesFilesForAllChannels** = false Boolean - Please see Building and Releasing using Channels.
+- **releaseInfo** - The release info. Intended for command line usage:
+
+```json
+{
+  "releaseName":"xxxx", //String - The release name.
+  "releaseNotes":"xxxx", //String - The release notes.
+  "releaseNotesFile":"xxxx", //String - The path to release notes file. Defaults to release-notes-${platform}.md (where platform it is current platform — mac, linux or windows) or release-notes.md in the build resources.
+  "releaseDate":"xxxx", //String - The release date.
+  "target":"xxxx",  //String | TargetConfiguration
+}
+```
 
 ## [命令及参数](https://www.electron.build/cli)
 
@@ -177,3 +217,4 @@ electron-builder -mwl           为macOS, Windows和Linux构建（同时构建�
 <https://github.com/QDMarkMan/CodeBlog/blob/master/Electron/electron-builder%E6%89%93%E5%8C%85%E8%AF%A6%E8%A7%A3.md>
 <https://stackoverflow.com/questions/54978918/what-is-the-purpose-of-buildresources-folder-in-electron-builder-building-proces>
 <https://blog.csdn.net/qq_38830593/article/details/89843722>
+<https://forum.snapcraft.io/t/how-do-i-make-the-polarr-snap-associate-with-image-files/7316>
