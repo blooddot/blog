@@ -7,7 +7,7 @@ categories: electron
 使用electron, 打包必不可免, 官方推荐electron-builder库进行应用打包.  
 本篇主要就工作中用到的electron-builder打包功能进行总结.
 
-## 安装
+## 一、安装
 
 项目目录执行命令:
 
@@ -15,50 +15,50 @@ categories: electron
 yarn add -D electron-builder
 ```
 
-## [构建配置](https://www.electron.build/configuration/configuration)
+## [二、构建配置](https://www.electron.build/configuration/configuration)
 
-可以直接在package.json中配置,也可以添加electron-builder.yml(yml,json5,toml,js)文件进行配置,以json配置为例  
+可以直接在package.json中配置,也可以添加electron-builder.yml(yml,json5,toml,js)文件进行配置,以package.json配置为例  
 
 ### 基础配置
 
 ``` json
 "build": {
-  "productName": "xxxx",        //项目名,这也是生成的exe文件的前缀名
-  "copyright":"xxxx",           //版权信息
+  "productName": "xxxx",  //String - 项目名,这也是生成的exe文件的前缀名
+  "copyright":"Copyright © year ${author}", //String - 版权信息
 
   //目录配置
   "directories": {              
-    "buildResources": "xxxx",   //构建用的资源目录（不会包含在打包后的资源中, 例如nsis要用到的构建配置文件）
-    "output": "xxxx",           //输出文件夹, 默认输出到dist文件夹
-    "app": "xxxx",              //应用程序目录, 默认是app,www或工作空间
+    "buildResources": "build",  //String - 构建用的资源目录（不会包含在打包后的资源中, 例如nsis要用到的构建配置文件）
+    "output": "dist", //String - 输出文件夹, 默认输出到dist文件夹
+    "app": "app", //String  - 应用程序目录, 默认是app,www或工作空间
   },
   
   //
-  "buildDependenciesFromSource": false,   //boolean, 是否用源编译开发依赖项
-  "nodeGypRebuild": false,        //boolean, 是否每次打包前都重新构建node-gyp
-  "npmArgs": ["xxx"],         //Array<String> | String, 直译: 安装应用程序本地依赖（native deps） 时添加的额外命令行参数, 原文: Additional command line arguments to use when installing app native deps. 
-  "npmRebuild": true,         //是否在打包应用程序之前重新构建本地依赖
+  "buildDependenciesFromSource": false,   //Boolean - 是否用源编译开发依赖项
+  "nodeGypRebuild": false,        //Boolean - 是否每次打包前都重新构建node-gyp
+  "npmArgs": ["xxx"],         //Array<String> | String - 直译: 安装应用程序本地依赖（native deps） 时添加的额外命令行参数, 原文: Additional command line arguments to use when installing app native deps. 
+  "npmRebuild": true,         //Boolean - 是否在打包应用程序之前重新构建本地依赖
 
   //
-  "buildVersion": "xxxx",     //构建的版本, 对应于MacOS 的CFBundleVersion 和 Windows 元数据属性，默认对应Version, 如果已经定义TRAVIS_BUILD_NUMBER 、 APPVEYOR_BUILD_NUMBER 、 CIRCLE_BUILD_NUM 、 BUILD_NUMBER 、 bamboo.buildNumber 这些环境变量，那么将会被用作 build Version（version.build_number）
-  "electronCompile": true,    //是否使用 electron-compile 来编译应用程序, 注:electronCompile已废弃
-  "electronDist": "~/electron/out/R", //自定义electron构建路径
-  "electronDownload": {       //electron-download 选项  详见:<https://github.com/electron/get#usage>
-    "version": "xxx",
-    "cache": "xxxx",          //缓存位置
-    "mirror": "xxxx",         //镜像
-    "strictSSL": false,
-    "isVerfyChecksum": false,
-    "platform":"xxx",            //“darwin” | “linux” | “win32” | “mas”
-    "arch":"xxxx" 
+  "buildVersion": "xxxx",     //String - 构建的版本, 对应于MacOS 的CFBundleVersion 和 Windows 元数据属性，默认对应Version, 如果已经定义TRAVIS_BUILD_NUMBER 、 APPVEYOR_BUILD_NUMBER 、 CIRCLE_BUILD_NUM 、 BUILD_NUMBER 、 bamboo.buildNumber 这些环境变量，那么将会被用作 build Version（version.build_number）
+  "electronCompile": true,    //Boolean - 是否使用 electron-compile 来编译应用程序, 注:electronCompile已废弃
+  "electronDist": "~/electron/out/R", //String - 自定义electron构建路径
+  "electronDownload": { //electron-download 选项  详见:<https://github.com/electron/get#usage>
+    "version": "xxx", //String - 版本
+    "cache": "xxxx",  //String - 缓存位置
+    "mirror": "xxxx", //镜像
+    "strictSSL": false, //Boolean
+    "isVerfyChecksum": false, //Boolean
+    "platform":"xxx", //“darwin” | “linux” | “win32” | “mas”
+    "arch":"xxxx" //String
   },
-  "electronVersion":  "xxx",    //打包用的electron版本, 默认为electron electron-prebuilt electron-prebuilt-compile 依赖版本
-  "extends": "xxx", //内置预设配置或配置文件的路径（相对于项目目录）当前只支持react-cra,如果安装了react-scripts依赖, react-cra会被自动设置，设置为null可以禁用自动检测
-  "extraMetadata": "xxx", //注入额外属性到package.json中
-  "readonly": false, //应用签名失败时,是否构建失败(用于停止构建签名失败的应用程序) 
-  "nodeVersion": "current", //仅限于libui-based frameworks ，打包所用的NodeJS版本，设置current表示当前运行的NodeJS版本
-  "launchUiVersion": "", //仅限于libui-based frameworks, 你所要打包的 LaunchUI 版本. 仅仅针对于Windows, 默认为适合框架使用的版本
-  "framework": "electron", //框架名称，electron proton-native libui 默认为electron
+  "electronVersion":  "xxx",    //String - 打包用的electron版本, 默认为electron electron-prebuilt electron-prebuilt-compile 依赖版本
+  "extends": "xxx", //String - 内置预设配置或配置文件的路径（相对于项目目录）当前只支持react-cra,如果安装了react-scripts依赖, react-cra会被自动设置，设置为null可以禁用自动检测
+  "extraMetadata": "xxx", //any - 注入额外属性到package.json中
+  "readonly": false, //Boolean - 应用签名失败时,是否构建失败(用于停止构建签名失败的应用程序) 
+  "nodeVersion": "current", //String - 仅限于libui-based frameworks ，打包所用的NodeJS版本，设置current表示当前运行的NodeJS版本
+  "launchUiVersion": "", //Boolean | String - 仅限于libui-based frameworks, 你所要打包的 LaunchUI 版本. 仅仅针对于Windows, 默认为适合框架使用的版本
+  "framework": "electron", //String - 框架名称，electron proton-native libui 默认为electron
 
   //Hooks 
   "afterPack": "xxxx",  //打包后(签名前)执行的函数(文件或模块id的路径)
@@ -70,9 +70,9 @@ yarn add -D electron-builder
   "beforeBuild": "xxxx",              //只有npmRebuild配置设置为true时生效, 依赖库被安装或重新编译后执行的函数(文件或模块id的路径).
 
   //
-  "remoteBuild": true,          //当前操作系统不支持构建时,使用Electron远程服务构建
-  "includePdb": false,          //是否包含PDB文件(<https://en.wikipedia.org/wiki/Program_database>)
-  "removePackageScripts": true,   //是否从package.json中移除scripts项
+  "remoteBuild": true,          //Boolean - 当前操作系统不支持构建时,使用Electron远程服务构建
+  "includePdb": false,          //Boolean - 是否包含PDB文件(<https://en.wikipedia.org/wiki/Program_database>)
+  "removePackageScripts": true,   //Boolean - 是否从package.json中移除scripts项
 }
 ```
 
@@ -104,7 +104,7 @@ yarn add -D electron-builder
 - p5p: Linux p5p包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)
 - apk: Linux apk包构建选项, [详见](https://www.electron.build/configuration/linux#LinuxTargetSpecificOptions)
 
-### 既能配置在build项, 又能在每个平台中重写的配置
+### 既能配置在build项, 又能在每个平台中复写的配置
 
 - **appId** = com.electron.${name} String - 应用程序id
 - **artifactName** String - 构建生成的文件名字模板, 默认为 ${productName}-${version}.${ext} (有些平台会有不同的默认值,具体查看各自平台的配置)  
@@ -152,23 +152,28 @@ FileAssociation = {
 - **forceCodeSigning** Boolean - 当应用程序签名失败时, 是否打包失败
 - **electronUpdaterCompatibility** = ">=2.15" String - electronUpdater兼容版本, e.g. >= 2.16, >=1.0.0.
 - **publish** 发布设置 [详见](https://www.electron.build/configuration/publish)
-- **detectUpdateChannel** = true Boolean - Whether to infer update channel from application version pre-release components. e.g. if version 0.12.1-alpha.1, channel will be set to alpha. Otherwise to latest.
-- **generateUpdatesFilesForAllChannels** = false Boolean - Please see Building and Releasing using Channels.
-- **releaseInfo** - The release info. Intended for command line usage:
+- **detectUpdateChannel** = true Boolean - (待理解) Whether to infer update channel from application version pre-release components. e.g. if version 0.12.1-alpha.1, channel will be set to alpha. Otherwise to latest.
+- **generateUpdatesFilesForAllChannels** = false Boolean - (待理解) Please see Building and Releasing using Channels.
+- **releaseInfo** releaseInfo - 发布信息. 用于命令行使用:  
 
-```json
-{
-  "releaseName":"xxxx", //String - The release name.
-  "releaseNotes":"xxxx", //String - The release notes.
-  "releaseNotesFile":"xxxx", //String - The path to release notes file. Defaults to release-notes-${platform}.md (where platform it is current platform — mac, linux or windows) or release-notes.md in the build resources.
-  "releaseDate":"xxxx", //String - The release date.
-  "target":"xxxx",  //String | TargetConfiguration
+```bash
+c.releaseInfo.releaseNotes="new features"
+ ```
+
+ ```json
+releaseInfo = {
+  "releaseName":"xxxx", //String - 发行名称
+  "releaseNotes":"xxxx", //String - 发行说明
+  "releaseNotesFile":"xxxx", //String - 发行说明文件, 默认为release-notes-${platform}.md (platform值为当前平台 — mac, linux or windows) 或者 release-notes.md 保存在build resources目录下面.
+  "releaseDate":"xxxx", //String - 发行时间
+  "target":""   //String | TargetConfiguration 测试后,发现已不存在该字段
+
 }
-```
+ ```
 
-## [命令及参数](https://www.electron.build/cli)
+## [三、命令及参数](https://www.electron.build/cli)
 
-package.json文件中添加执行脚本(以windows 64位包为例)  
+package.json文件中添加打包执行脚本(以windows 64位包为例)  
 
 ``` bash
 electron-builder --win --x64
@@ -210,7 +215,7 @@ electron-builder start                    使用electronic-webpack在开发模�
 electron-builder --win --x64    构建windows 64位版本  
 electron-builder -mwl           为macOS, Windows和Linux构建（同时构建）
 
-## 参考资料
+## 四、参考链接
 
 <https://www.electron.build/>  
 <https://github.com/electron-userland/electron-builder>  
