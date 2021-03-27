@@ -99,5 +99,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://e.coding.net/blooddot/blog/deploy_blog.git
+  repo: https://github.com/blooddot/blooddot.github.io.git
   branch: master
