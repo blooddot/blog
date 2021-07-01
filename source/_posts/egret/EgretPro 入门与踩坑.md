@@ -1,4 +1,9 @@
-# EgretPro 入门与踩坑
+---
+title: EgretPro 入门与踩坑
+date: 2021-07-01 23:38:48
+tags:
+categories: electron
+---
 <!-- cSpell:disable -->
 ## 安装开发环境
 
