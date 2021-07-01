@@ -1,9 +1,11 @@
 ---
 title: EgretPro 入门与踩坑
 date: 2021-07-01 23:38:48
-tags:
-categories: electron
+tags: game
+categories: egret
 ---
+本篇文章主要是总结EgretPro入门和踩坑的经历。
+<!-- more -->
 <!-- cSpell:disable -->
 ## 安装开发环境
 
@@ -316,6 +318,10 @@ github地址：[https://github.com/egret-labs/egret3d-unityplugin](https://githu
   * 其实源码里面已经找到碰撞的实体了，只是返回的是boolean值而已
   * 我修改了源码返回值，直接把实体返回，达到想要的效果
   * 并且比传入maxDisatcne和RaycastInfo效率还高
+
+## 项目Github地址
+
+<https://github.com/blooddot/egret-2d-demo>
 
 ## 参考资料
 

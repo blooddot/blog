@@ -1,12 +1,13 @@
 ---
 title: electron-builder使用简介
 date: 2021-01-8 00:59:45
-tags:
+tags: web
 categories: electron
 ---
 使用electron, 打包必不可免, 官方推荐electron-builder库进行应用打包.  
 本篇主要就工作中用到的electron-builder打包功能进行总结.
 <!-- more -->
+<!-- cSpell:disable -->
 
 ## 一、安装
 
