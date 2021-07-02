@@ -1,6 +1,6 @@
 ---
 title: Unity 2D 乓乓游戏（一）
-date: 2017-02-22 00:00:00
+date: 2017-02-22 00:00:01
 tags: game
 categories: 黑历史
 ---
@@ -14,7 +14,7 @@ categories: 黑历史
 这是一个只用38行代码就能够做出2d乒乓游戏的教程哟~ 当然，肯定是用unity游戏引擎来做的，安心啦，会一步步教的。  
 给你个gif图，自己看游戏最终效果
 
-![20210702094651](https://raw.githubusercontent.com/blooddot/FigureBed/master/blog/20210702094651.png)
+![20210702214949](https://raw.githubusercontent.com/blooddot/FigureBed/master/blog/20210702214949.gif)
 
 ---
 
