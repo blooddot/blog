@@ -1,8 +1,9 @@
 ---
 title: EgretPro 入门与踩坑
-date: 2021-07-01 23:38:48
 tags: game
 categories: egret
+abbrlink: 93f2990b
+date: 2021-07-01 23:38:48
 ---
 本篇文章主要是总结EgretPro入门和踩坑的经历。
 <!-- more -->

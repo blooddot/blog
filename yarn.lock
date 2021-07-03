@@ -508,6 +508,19 @@ has-flag@^4.0.0:
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
+hexo-abbrlink@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/hexo-abbrlink/-/hexo-abbrlink-2.2.1.tgz#03a3bbf73816ed19279e97452ce617c6caf98b5a"
+  integrity sha512-yvazN7bbrIb7p8QU3nJ/8fbDmir1mFroYvUYcJz5xpc6DtszKggschmqZg6WNUdjhDBFyDwksrIUfwQnw0OOuA==
+  dependencies:
+    hexo-front-matter "^1.0.0"
+    hexo-fs "^3.1.0"
+
+hexo-addlink@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/hexo-addlink/-/hexo-addlink-1.0.4.tgz#f1b22ebf67133fd71c08193a2b47e02510bf8343"
+  integrity sha1-8bIuv2cTP9ccCBk6K0fgJRC/g0M=
+
 hexo-cli@^4.0.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hexo-cli/-/hexo-cli-4.2.0.tgz#74647bc72a90b9cebf04af5bc70839ab281a305d"
@@ -535,6 +548,13 @@ hexo-deployer-git@^2.1.0:
     hexo-util "^1.0.0"
     moment "^2.18.0"
     swig-templates "^2.0.2"
+
+hexo-front-matter@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hexo-front-matter/-/hexo-front-matter-1.0.0.tgz#0b48b1c1ed143e8cb25b3b223a9037385d910655"
+  integrity sha512-Hn8IIzgWWnxYTekrjnA0rxwWMoQHifyrxKMqVibmFaRKf4AQ2V6Xo13Jiso6CDwYfS+OdA41QS5DG1Y+QXA5gw==
+  dependencies:
+    js-yaml "^3.13.1"
 
 hexo-front-matter@^2.0.0:
   version "2.0.0"
@@ -584,6 +604,13 @@ hexo-generator-index@^2.0.0:
   dependencies:
     hexo-pagination "1.0.0"
     timsort "^0.3.0"
+
+hexo-generator-searchdb@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/hexo-generator-searchdb/-/hexo-generator-searchdb-1.3.4.tgz#0b0679b7c0c6376fa8e139afb135cf84ae6af1ad"
+  integrity sha512-ygcycC64qVW7c10U6o5HDxLsK7gW8D/KMZD0LJG/ZDNkVT/vten0r0cLBro0sF3ea8ut7aSKjochSkC7jUgsQg==
+  dependencies:
+    nunjucks "^3.2.2"
 
 hexo-generator-tag@^1.0.0:
   version "1.0.0"
@@ -996,6 +1023,15 @@ nunjucks@^3.2.1:
     commander "^5.1.0"
   optionalDependencies:
     chokidar "^3.3.0"
+
+nunjucks@^3.2.2:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/nunjucks/-/nunjucks-3.2.3.tgz#1b33615247290e94e28263b5d855ece765648a31"
+  integrity sha512-psb6xjLj47+fE76JdZwskvwG4MYsQKXUtMsPh6U0YMvmyjRtKRFcxnlXGWglNybtNTNVmGdp94K62/+NjF5FDQ==
+  dependencies:
+    a-sync-waterfall "^1.0.0"
+    asap "^2.0.3"
+    commander "^5.1.0"
 
 on-finished@~2.3.0:
   version "2.3.0"

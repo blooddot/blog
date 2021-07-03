@@ -1,11 +1,12 @@
 ---
 title: Unity 2D 乓乓游戏（一）
-date: 2017-02-22 00:00:01
 tags: game
 categories: 黑历史
+abbrlink: 1d1dd166
+date: 2017-02-22 00:00:01
 ---
 【非原创2D游戏教程】乓乓游戏
-[教程目录地址](https://blooddot.cool/2017/02/22/%E9%BB%91%E5%8E%86%E5%8F%B2/%E3%80%90%E9%9D%9E%E5%8E%9F%E5%88%9B2D%E6%B8%B8%E6%88%8F%E6%95%99%E7%A8%8B%E3%80%91%E4%B9%93%E4%B9%93%E6%B8%B8%E6%88%8F/)
+[教程目录地址](https://blooddot.cool/posts/dbdef186/)
 <!-- more -->
 <!-- cSpell:disable -->
 
